@@ -23,8 +23,6 @@ console.log(port);
 
 var server = http.createServer(app);
 
-server.timeout = 600000; // 10 minutes in milliseconds
-
 const { Server } = require("socket.io");
 const CHAT = require("../models/chat");
 const io = new Server(server, {
