@@ -1,0 +1,59 @@
+{
+    "info": {
+        "_postman_id": "EXAMPLE_POSTMAN_ID",
+        "name": "Auth API",
+        "description": "Collection of endpoints for user authentication.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Sign up",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"type\": \"patient\",\n  \"email\": \"example@mail.com\",\n  \"password\": \"password123\",\n  \"name\": \"Example User\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/auth/sign-up",
+                    "protocol": "{{base_url}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "auth",
+                        "sign-up"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Sign in",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"type\": \"patient\",\n  \"email\": \"example@mail.com\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/auth/sign-in",
+                    "protocol": "{{base_url}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "auth",
+                        "sign-in"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "protocolProfileBehavior": {
+        "disableBodyPruning": true
+    }
+}

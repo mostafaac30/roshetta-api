@@ -1,0 +1,130 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require("../app");
+var debug = require("debug")("backned:server");
+var http = require("http");
+var mongoose = require("mongoose");
+const config = require("../utils/config");
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
+console.log(port);
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+const { Server } = require("socket.io");
+const CHAT = require("../models/chat");
+const io = new Server(server, {
+  cors: config.frontend_URL,
+  methods: ["GET", "POST"],
+  credentials: true,
+});
+
+io.on("connection", (socket) => {
+  console.log(socket.id);
+  socket.emit("me", socket.id);
+  socket.on("callUser", (data) => {
+    io.to(data.userToCall).emit("callUser", {
+      signal: data.signalData,
+      from: data.from,
+      name: data.name,
+    });
+  });
+  socket.on("disconnect", () => {
+    socket.broadcast.emit("callEnded");
+  });
+  socket.on("answerCall", (data) => {
+    io.to(data.to).emit("callAccepted", data.signal);
+  });
+  socket.on("register-rooms", (rooms) => {
+    console.log(rooms, "this is register rooms");
+    socket.join(rooms);
+  });
+  socket.on("send-message", async ({ ID, message, type }) => {
+    try {
+      const chat = await CHAT.findById(ID);
+      const msg = { message, type };
+      let chatMessages = [...chat.messages, { message: message, type: type }];
+      chat.messages = chatMessages;
+      await chat.save();
+      console.log(chat.messages);
+
+      socket.to(ID).emit("update-messages", chat.messages);
+    } catch (e) {
+      console.error(e);
+    }
+  });
+});
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+mongoose.connect(process.env.DBURI, { useNewUrlParser: true }).then(() => {
+  server.listen(port);
+  console.log(process.env.DBURI);
+});
+server.on("error", onError);
+server.on("listening", onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
+}
