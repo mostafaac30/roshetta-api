@@ -18,8 +18,8 @@ var chatRoute = require("./routes/chat");
 var AuthRoute = require("./routes/auth");
 
 const { errorHandler } = require("./utils/error");
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "jade");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
