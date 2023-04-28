@@ -23,7 +23,7 @@ const PatientSchema = new Schema(
       type: Date,
     },
     gender: {
-      type: Boolean,
+      type: String,
     },
     balance: {
       type: Number,

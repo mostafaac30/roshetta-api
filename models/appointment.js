@@ -43,6 +43,7 @@ const AppointmentSchema = new Schema(
 AppointmentSchema.pre("save", handlePreAppointment);
 
 AppointmentSchema.post("save", handleAppointment);
+
 async function handleAppointment(doc) {
   if (doc.state !== "waiting") return;
   const chat = await CHAT.create({
