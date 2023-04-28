@@ -34,6 +34,7 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log(socket.id);
   socket.emit("me", socket.id);
+
   socket.on("callUser", (data) => {
     io.to(data.userToCall).emit("callUser", {
       signal: data.signalData,
@@ -41,7 +42,7 @@ io.on("connection", (socket) => {
       name: data.name,
     });
   });
-  
+
   socket.on("disconnect", () => {
     socket.broadcast.emit("callEnded");
   });
@@ -52,16 +53,22 @@ io.on("connection", (socket) => {
     console.log(rooms, "this is register rooms");
     socket.join(rooms);
   });
-  socket.on("send-message", async ({ ID, message, type }) => {
+  socket.on("send-message", async (data) => {
+    //{ ID, message, type }
+    const { ID, message, type } = data;
     try {
       const chat = await CHAT.findById(ID);
-      const msg = { message, type };
+      console.log(chat);
+      if (!chat) {
+        console.error(`Chat with ID ${ID} not found.`);
+        return;
+      }
       let chatMessages = [...chat.messages, { message: message, type: type }];
       chat.messages = chatMessages;
       await chat.save();
       console.log(chat.messages);
 
-      socket.to(ID).emit("update-messages", chat.messages);
+      io.to(socket.id).emit("update-messages", chat.messages);
     } catch (e) {
       console.error(e);
     }
