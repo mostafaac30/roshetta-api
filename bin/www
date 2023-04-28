@@ -41,6 +41,7 @@ io.on("connection", (socket) => {
       name: data.name,
     });
   });
+  
   socket.on("disconnect", () => {
     socket.broadcast.emit("callEnded");
   });

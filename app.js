@@ -14,6 +14,7 @@ var patientRoute = require("./routes/patient");
 var appointmentRoute = require("./routes/appointment");
 var categoryRoute = require("./routes/category");
 var chatRoute = require("./routes/chat");
+var seedRoute = require("./routes/seed");
 
 var AuthRoute = require("./routes/auth");
 
@@ -31,6 +32,7 @@ app.use("/api", appointmentRoute);
 app.use("/api", patientRoute);
 app.use("/api", categoryRoute);
 app.use("/api", chatRoute);
+app.use("/seed", seedRoute);
 
 app.use("/", indexRouter);
 

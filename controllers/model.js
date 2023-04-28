@@ -2,7 +2,8 @@ async function get(req, res, next) {
   try {
     const { Model, query } = req;
     const { q, page, populate, field, value } = query;
-    const limit = 10;
+    const limit = 10 || query.limit;
+
     const defaultPage = page || 1;
     const filterObject = {
       name: { $regex: q || "", $options: "i" },
