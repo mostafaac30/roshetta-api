@@ -18,6 +18,19 @@ const ChatSchema = new Schema(
           type: Date,
           default: new Date(),
         },
+        //sender is either doctor or patient
+        sender: {
+          type: String,
+          enum: ["doctor", "patient"],
+          required: true,
+        },
+
+        //receiver is either doctor or patient
+        receiver: {
+          type: String,
+          enum: ["doctor", "patient"],
+          required: true,
+        },
       },
     ],
     type: {

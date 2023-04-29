@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
   });
   socket.on("send-message", async (data) => {
     //{ ID, message, type }
-    const { ID, message, type } = data;
+    const { ID, message, type, sender, receiver } = data;
     try {
       const chat = await CHAT.findById(ID);
       console.log(chat);
@@ -63,7 +63,13 @@ io.on("connection", (socket) => {
         console.error(`Chat with ID ${ID} not found.`);
         return;
       }
-      let chatMessages = [...chat.messages, { message: message, type: type }];
+      const msg = {
+        message: message,
+        type: type,
+        sender: sender,
+        receiver: receiver,
+      };
+      let chatMessages = [...chat.messages, msg];
       chat.messages = chatMessages;
       await chat.save();
       console.log(chat.messages);
