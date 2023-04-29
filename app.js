@@ -17,8 +17,9 @@ var chatRoute = require("./routes/chat");
 var seedRoute = require("./routes/seed");
 
 var AuthRoute = require("./routes/auth");
-
+const { isSignedIn } = require("./controllers/auth");
 const { errorHandler } = require("./utils/error");
+
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "jade");
 app.use(logger("dev"));
@@ -27,12 +28,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //! start to add crud
 app.use("/auth", AuthRoute);
+app.use("/seed", seedRoute);
+// is signed in
+app.use("/api", isSignedIn);
 app.use("/api", doctorRoute);
 app.use("/api", appointmentRoute);
 app.use("/api", patientRoute);
 app.use("/api", categoryRoute);
 app.use("/api", chatRoute);
-app.use("/seed", seedRoute);
 
 app.use("/", indexRouter);
 
