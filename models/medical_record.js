@@ -5,6 +5,10 @@ const { Schema, Types, model } = mongoose;
 
 const MedicalRecord = new Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     patient: {
       type: Types.ObjectId,
       ref: "Patient",
@@ -12,11 +16,9 @@ const MedicalRecord = new Schema(
     },
     prescription: {
       type: String,
-      required: true,
     },
     report: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
