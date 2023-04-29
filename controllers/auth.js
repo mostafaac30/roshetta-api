@@ -124,13 +124,13 @@ async function isSignedIn(req, res, next) {
     const patient = PATIENT.findById(id);
     if (patient) {
       req.user = patient;
-      console.log(patient, "user");
+      // console.log(patient, "user");
       return next();
     }
     const doctor = DOCTOR.findById(id);
     if (doctor) {
       req.user = doctor;
-      console.log(doctor, "user");
+      // console.log(doctor, "user");
       return next();
     }
 

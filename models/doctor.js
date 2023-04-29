@@ -29,14 +29,15 @@ const DoctorSchema = new Schema(
       type: Number,
       default: 0,
     },
+    // 24 hours format (0-23)
     workHours: {
       from: {
         type: Number,
-        default: 12,
+        default: 11,
       },
       to: {
         type: Number,
-        default: 12,
+        default: 0,
       },
     },
     address: {
