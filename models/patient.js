@@ -30,6 +30,24 @@ const PatientSchema = new Schema(
       default: 0,
     },
     banned: { type: Boolean, default: false },
+    phone: {
+      type: Number,
+      length: 11,
+    },
+    image: {
+      type: String,
+      default:
+        "https://www.vhv.rs/dpng/d/505-5058560_person-placeholder-image-free-hd-png-download.png",
+    },
+    //list of doctors ids
+    favoriteDoctors: [{ type: Types.ObjectId, ref: "Doctor" }],
+    //medical records
+    medicalRecords: [
+      {
+        type: Types.ObjectId,
+        ref: "MedicalRecord",
+      },
+    ],
   },
   { timestamps: true }
 );

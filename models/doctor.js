@@ -51,6 +51,46 @@ const DoctorSchema = new Schema(
       type: Number,
       length: 11,
     },
+    image: {
+      type: String,
+      default:
+        "https://www.vhv.rs/dpng/d/505-5058560_person-placeholder-image-free-hd-png-download.png",
+    },
+    description: {
+      type: String,
+      default: "No description",
+      maxLength: 100,
+    },
+    rating: {
+      type: Number,
+      default: 0,
+
+      min: 0,
+      max: 5,
+
+      validate: {
+        validator: Number.isInteger,
+        message: "{VALUE} is not an integer value",
+      },
+    },
+    reviews: [
+      {
+        type: Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    title: {
+      type: String,
+      default: "Dr.",
+    },
+    jobTitle: {
+      type: String,
+      default: "Doctor",
+    },
+    experience: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

@@ -66,5 +66,4 @@ router.get(
   stats,
   response
 );
-
 module.exports = router;
