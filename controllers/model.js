@@ -1,13 +1,19 @@
 async function get(req, res, next) {
   try {
     const { Model, query } = req;
-    const { q, page, populate, field, value } = query;
-    const limit = 10 || query.limit;
+    const { q, page, populate, field, value, doctor, patient } = query;
+    const limit = parseInt(query.limit) || 10;
+    const defaultPage = parseInt(page) || 1;
 
-    const defaultPage = page || 1;
+    // if doctor or patient query has been passed
+    // return data of that doctor or patient
+
     const filterObject = {
       name: { $regex: q || "", $options: "i" },
     };
+    if (doctor) filterObject.doctor = doctor;
+    if (patient) filterObject.patient = patient;
+
     if (field) filterObject[field] = value;
     const results = await Model.find(filterObject)
       .skip(limit * defaultPage - limit)
