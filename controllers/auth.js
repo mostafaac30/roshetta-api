@@ -121,13 +121,13 @@ async function isSignedIn(req, res, next) {
     if (!verifiedObject) return next(createError(401, "invalid token"));
     const { id } = verifiedObject;
 
-    const patient = PATIENT.findById(id);
+    const patient = await PATIENT.findById(id);
     if (patient) {
       req.user = patient;
       // console.log(patient, "user");
       return next();
     }
-    const doctor = DOCTOR.findById(id);
+    const doctor = await DOCTOR.findById(id);
     if (doctor) {
       req.user = doctor;
       // console.log(doctor, "user");
