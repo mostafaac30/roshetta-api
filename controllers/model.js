@@ -13,7 +13,7 @@ async function get(req, res, next) {
     };
     if (doctor) filterObject.doctor = doctor;
     if (patient) filterObject.patient = patient;
-
+    
     if (field) filterObject[field] = value;
     const results = await Model.find(filterObject)
       .skip(limit * defaultPage - limit)
@@ -77,7 +77,12 @@ async function edit(req, res, next) {
     const { populate } = query;
     if (!Object.values(body).length)
       throw new Error(`Invalid body: ${JSON.stringify(body)}`);
-    const result = await Model.findByIdAndUpdate(ID, body).exec();
+    // update and return the new object
+    const result = await Model.findByIdAndUpdate(ID, body, {
+      new: true,
+    })
+      .populate(populate)
+      .exec();
 
     req.res_object = {
       message: `successfully create ${result.name} `,

@@ -60,7 +60,7 @@ async function doctorAvailableAppointments(req, res, next) {
     req.res_object = {
       message: `successfully get available appointments`,
       success: true,
-      result: availableAppointments,
+      results: availableAppointments,
       notify: true,
     };
     next();

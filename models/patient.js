@@ -51,6 +51,7 @@ const PatientSchema = new Schema(
   },
   { timestamps: true }
 );
+
 PatientSchema.pre("save", function (next) {
   if (this.createdAt === this.updatedAt) {
     this.password = bcrypt.hashSync(this.password, 12);

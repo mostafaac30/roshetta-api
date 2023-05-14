@@ -95,6 +95,7 @@ const DoctorSchema = new Schema(
   },
   { timestamps: true }
 );
+
 DoctorSchema.pre("save", function (next) {
   if (this.createdAt === this.updatedAt) {
     this.password = bcrypt.hashSync(this.password, 12);

@@ -17,7 +17,7 @@ async function signUp(req, res, next) {
         message: `successfully signup doctor ${doctor.name} `,
         success: true,
         token: token,
-        results: [doctor],
+        result: doctor,
         notify: true,
       };
       req.res_object = res_object;
@@ -29,7 +29,7 @@ async function signUp(req, res, next) {
         message: `successfully signup patient ${patient.name} `,
         success: true,
         token: token,
-        result: [patient],
+        result: patient,
         notify: true,
       };
       req.res_object = res_object;
@@ -68,7 +68,7 @@ async function signIn(req, res, next) {
           message: `successfully signing`,
           success: true,
           token: token,
-          result: [doctor],
+          result: doctor,
           notify: true,
         };
         req.res_object = res_object;
@@ -95,7 +95,7 @@ async function signIn(req, res, next) {
           message: `successfully signing`,
           success: true,
           token: token,
-          result: [patient],
+          result: patient,
           notify: true,
         };
         req.res_object = res_object;
@@ -119,18 +119,18 @@ async function isSignedIn(req, res, next) {
     const authToken = token.split(" ")[1];
     const verifiedObject = verifyGlobalToken(authToken);
     if (!verifiedObject) return next(createError(401, "invalid token"));
-    const { id } = verifiedObject;
+    const { data } = verifiedObject;
 
-    const patient = await PATIENT.findById(id);
+    const patient = await PATIENT.findById(data);
     if (patient) {
       req.user = patient;
       // console.log(patient, "user");
       return next();
     }
-    const doctor = await DOCTOR.findById(id);
+    const doctor = await DOCTOR.findById(data);
+    console.log(doctor, "user");
     if (doctor) {
       req.user = doctor;
-      // console.log(doctor, "user");
       return next();
     }
 
