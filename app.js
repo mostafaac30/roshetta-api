@@ -22,8 +22,6 @@ const { errorHandler } = require("./utils/error");
 const { adminJs, adminJsRouter } = require("./routes/admin");
 
 //run dashboard
-app.use(express.static(path.join(__dirname, "/assets")));
-app.use(express.static(path.join(__dirname, "/uploads/images/")));
 
 app.use(adminJs.options.rootPath, adminJsRouter);
 
@@ -38,6 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cors({ origin: "*" }));
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 //! start to add crud
 app.use("/auth", AuthRoute);
