@@ -19,13 +19,26 @@ var seedRoute = require("./routes/seed");
 var AuthRoute = require("./routes/auth");
 const { isSignedIn } = require("./controllers/auth");
 const { errorHandler } = require("./utils/error");
+const { adminJs, adminJsRouter } = require("./routes/admin");
 
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "jade");
+//run dashboard
+app.use(express.static(path.join(__dirname, "/assets")));
+
+app.use(adminJs.options.rootPath, adminJsRouter);
+
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 app.use(logger("dev"));
+app.use(cookieParser());
+
+//
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+
+app.use(cors({ origin: "*" }));
+
 //! start to add crud
 app.use("/auth", AuthRoute);
 app.use("/seed", seedRoute);
