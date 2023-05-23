@@ -23,6 +23,7 @@ const { adminJs, adminJsRouter } = require("./routes/admin");
 
 //run dashboard
 app.use(express.static(path.join(__dirname, "/assets")));
+app.use(express.static(path.join(__dirname, "/uploads/images/")));
 
 app.use(adminJs.options.rootPath, adminJsRouter);
 
