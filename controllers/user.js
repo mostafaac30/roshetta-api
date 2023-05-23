@@ -10,9 +10,7 @@ async function editUserInfo(req, res, next) {
     console.log(port);
     let image =
       files && files.length
-        ? `${protocol}://${hostname}${
-            Boolean(port.show) ? ":" + port.number : ""
-          }/` + files[0].path
+        ? `${protocol}://${hostname}${":" + port}/` + files[0].path
         : body.avatar;
     let editUser = await Model.findByIdAndUpdate(
       ID,
