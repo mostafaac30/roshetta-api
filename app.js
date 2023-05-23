@@ -26,7 +26,6 @@ app.use(express.static(path.join(__dirname, "/assets")));
 
 app.use(adminJs.options.rootPath, adminJsRouter);
 
-
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 app.use(logger("dev"));

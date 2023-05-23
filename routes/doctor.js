@@ -10,6 +10,8 @@ var router = Router();
 const modelPath = "/doctor";
 const { get, getOne, remove, edit, create } = model;
 const { doctorAvailableAppointments } = require("../controllers/doctor");
+const { editUserInfo } = require("../controllers/user");
+const { upload } = require("../utils/fileUploader");
 
 router.get(
   modelPath,
@@ -36,7 +38,9 @@ router.put(
     (req.Model = DOCTOR), (req.model_name = "doctor");
     next();
   },
-  edit,
+  upload.any("image"),
+
+  editUserInfo,
   response
 );
 

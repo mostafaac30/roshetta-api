@@ -8,8 +8,10 @@ const { Router } = express;
 var router = Router();
 const modelPath = "/patient";
 const modalName = "patient";
-
 const { get, getOne, remove, edit, create } = model;
+const { editUserInfo } = require("../controllers/user");
+const { upload } = require("../utils/fileUploader");
+
 router.get(
   modelPath,
   (req, res, next) => {
@@ -35,7 +37,10 @@ router.put(
     (req.Model = PATIENT), (req.model_name = modalName);
     next();
   },
-  edit,
+  upload.any("image"),
+
+  editUserInfo,
+
   response
 );
 
@@ -67,4 +72,5 @@ router.get(
   stats,
   response
 );
+
 module.exports = router;
