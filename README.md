@@ -79,4 +79,4 @@ Acknowledgments
 
 We extend our gratitude to the open-source community and all the contributors who have made this project possible. Thank you for your support in advancing telemedicine accessibility.
 
-Thanks for @abdulahrabie
+Thanks for Abdulah Rabie
